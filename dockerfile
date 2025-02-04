@@ -18,4 +18,4 @@ EXPOSE 8080
 ENV GITHUB_TOKEN=""
 
 # Command to run the application
-CMD ["./main"]
+CMD ["sh", "-c", "GITHUB_TOKEN=$GITHUB_TOKEN ./main"]
