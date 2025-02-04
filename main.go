@@ -7,11 +7,25 @@ import (
 	"net/http"
 )
 
+type User struct {
+	Name struct {
+		First string `json:"first"`
+		Last  string `json:"last"`
+	} `json:"name"`
+	Age         int `json:"age"`
+	Preferences struct {
+		Description string `json:"description"`
+		Hobbies     string `json:"hobbies"`
+	} `json:"preferences"`
+}
+
+type Data struct {
+	User User `json:"user"`
+}
+
 func main() {
-	// GitHub raw content URL for the JSON file
 	url := "https://raw.githubusercontent.com/sonnisanidev/aboutme_api/main/data.json"
 
-	// Send GET request to GitHub
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Error fetching JSON:", err)
@@ -19,21 +33,21 @@ func main() {
 	}
 	defer resp.Body.Close()
 
-	// Read the response body
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error reading response:", err)
 		return
 	}
 
-	// Parse JSON into a map
-	var data map[string]interface{}
+	var data Data
 	err = json.Unmarshal(body, &data)
 	if err != nil {
 		fmt.Println("Error parsing JSON:", err)
 		return
 	}
 
-	// Print the parsed JSON data
-	fmt.Println(data)
+	fmt.Printf("Name: %s %s\n", data.User.Name.First, data.User.Name.Last)
+	fmt.Printf("Age: %d\n", data.User.Age)
+	fmt.Printf("Description: %s\n", data.User.Preferences.Description)
+	fmt.Printf("Hobbies: %s\n", data.User.Preferences.Hobbies)
 }

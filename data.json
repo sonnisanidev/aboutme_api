@@ -27,7 +27,9 @@
         "notifications": {
           "email": true,
           "push": false
-        }
+        },
+        "description":"Lorem ipsum",
+        "hobbies":"Reading"
       },
       "lastLogin": "2025-02-04T10:30:00Z"
     }
