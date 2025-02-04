@@ -72,7 +72,10 @@ func handleUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := os.Getenv("GITHUB_TOKEN")
+	token, exists := os.LookupEnv("GITHUB_TOKEN")
+	if !exists {
+		log.Fatal("GITHUB_TOKEN not set")
+	}
 	print(token)
 	url := "https://raw.githubusercontent.com/sonnisanidev/aboutme_api/refs/heads/main/data.json"
 
@@ -185,7 +188,10 @@ func fetchCurrentData() (Data, error) {
 func updateGitHubFile(content []byte) error {
 	apiURL := "https://api.github.com/repos/sonnisanidev/aboutme_api/contents/data.json"
 
-	token := os.Getenv("GITHUB_TOKEN")
+	token, exists := os.LookupEnv("GITHUB_TOKEN")
+	if !exists {
+		log.Fatal("GITHUB_TOKEN not set")
+	}
 	print(token)
 	if token == "" {
 		log.Fatal("GITHUB_TOKEN environment variable not set")
